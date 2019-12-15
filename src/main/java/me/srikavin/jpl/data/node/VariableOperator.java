@@ -28,8 +28,10 @@ public class VariableOperator extends Node {
     }
 
     public static class VariableTokenParser extends TokenParser {
+        private static final TokenType[] indicatingTypes = new TokenType[]{TokenType.KEYWORD_VAR};
+
         @Override
-        public Node parse(Parser parser, TokenSequence sequence) {
+        public Node parse(Parser parser, TokenSequence sequence, Node last) {
             sequence.advance(TokenType.KEYWORD_VAR);
             Token varName = sequence.advance(TokenType.VAR_NAME);
 
@@ -40,7 +42,7 @@ public class VariableOperator extends Node {
 
         @Override
         public TokenType[] getIndicatingType() {
-            return new TokenType[]{TokenType.KEYWORD_VAR};
+            return indicatingTypes;
         }
     }
 }

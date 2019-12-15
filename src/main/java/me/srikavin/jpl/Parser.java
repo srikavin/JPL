@@ -24,5 +24,9 @@ public interface Parser {
 
     Compound parseAll(TokenSequence tokenSequence);
 
-    Node parse(TokenSequence tokenSequence);
+    Node parse(TokenSequence tokenSequence, Node last);
+
+    default Node parse(TokenSequence tokenSequence) {
+        return parse(tokenSequence, new Node());
+    }
 }

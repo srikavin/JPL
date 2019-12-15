@@ -27,7 +27,7 @@ public class Literal extends Node {
 
     public static class LiteralTokenParser extends TokenParser {
         @Override
-        public Node parse(Parser parser, TokenSequence sequence) {
+        public Node parse(Parser parser, TokenSequence sequence, Node last) {
             Token varName = sequence.advance(TokenType.VAR_NAME);
 
             Token assign = sequence.advance(TokenType.ASSIGN);

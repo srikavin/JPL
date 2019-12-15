@@ -16,7 +16,7 @@
 
 package me.srikavin.jpl.data.node;
 
-import me.srikavin.jpl.Token;
+import me.srikavin.jpl.*;
 
 public class BinaryOperator extends Node {
 
@@ -29,5 +29,24 @@ public class BinaryOperator extends Node {
         this.left = left;
         this.right = right;
         this.token = token;
+    }
+
+    public static class ArithmeticOperatorParser extends TokenParser {
+        private static final TokenType[] indicatingTypes = new TokenType[]{TokenType.OP_PLUS, TokenType.OP_MINUS, TokenType.OP_DIVIDE, TokenType.OP_MULTIPLY};
+
+        @Override
+        public Node parse(Parser parser, TokenSequence sequence, Node last) {
+            Token type = sequence.advance(TokenType.OP_PLUS, TokenType.OP_MINUS, TokenType.OP_DIVIDE, TokenType.OP_MULTIPLY);
+
+            Node val = parser.parse(sequence);
+
+            System.out.println(last);
+            return new BinaryOperator(last, type, val);
+        }
+
+        @Override
+        public TokenType[] getIndicatingType() {
+            return indicatingTypes;
+        }
     }
 }

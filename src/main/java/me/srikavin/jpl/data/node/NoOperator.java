@@ -36,7 +36,7 @@ public class NoOperator extends Node {
 
     public static class ValuesTokenParser extends TokenParser {
         @Override
-        public Node parse(Parser parser, TokenSequence sequence) {
+        public Node parse(Parser parser, TokenSequence sequence, Node last) {
             Token token = sequence.peek();
             if (token.getType() == TokenType.KEYWORD_TRUE) {
                 sequence.advance(TokenType.KEYWORD_TRUE);

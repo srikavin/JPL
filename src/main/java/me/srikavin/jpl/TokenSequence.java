@@ -18,6 +18,7 @@ package me.srikavin.jpl;
 
 import me.srikavin.jpl.exception.ParseException;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class TokenSequence {
@@ -45,7 +46,7 @@ public class TokenSequence {
     }
 
     public Token peek() {
-        if (currentIndex < endIndex) {
+        if (currentIndex <= endIndex) {
             return tokens.get(currentIndex);
         }
         return new Token(TokenType.EOF, "", 1, currentIndex);
@@ -64,6 +65,25 @@ public class TokenSequence {
         return new Token(TokenType.EOF, "", 1, currentIndex);
     }
 
+    public Token advance(TokenType... tokenType) {
+        if (tokenType.length == 0) {
+            throw new RuntimeException("Atleast one expected tokentype is needed");
+        }
+
+
+        Token token = getNext();
+        for (TokenType e : tokenType) {
+            if (token.getType() == e) {
+                System.out.println("Advanced " + token.getType());
+                return token;
+            }
+        }
+        throw new ParseException(0, currentIndex,
+                String.format("Unexpected character at index %d! Expected one of: %s, actual: %s",
+                        currentIndex, Arrays.toString(tokenType), token.getType()));
+    }
+
+
     public Token advance(TokenType tokenType) {
         Token token = getNext();
         if (token.getType() != tokenType) {
@@ -71,6 +91,7 @@ public class TokenSequence {
                     String.format("Unexpected character at index %d! Expected: %s, actual: %s",
                             currentIndex, tokenType, token.getType()));
         }
+        System.out.println("Advanced " + token.getType());
         return token;
     }
 }

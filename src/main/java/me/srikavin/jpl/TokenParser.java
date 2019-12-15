@@ -21,14 +21,28 @@ import me.srikavin.jpl.data.node.Node;
 public abstract class TokenParser {
     /**
      * Returns a Node from parsing this token sequence. May return null, if this sequence does not match what is expected.
+     * Only tokens that are parsed should be advanced past.<br>
+     * <p>
+     * This is equivalent to calling {@code parse(parser, sequence, new Node())}
+     *
+     * @param parser   A parser to use, allowing for generating other Nodes, inside of this Node
+     * @param sequence The sequence to parse. It is expected that the start and end positions are not modified.
+     * @return The Node that resulted from parsing the token sequence
+     */
+    public Node parse(Parser parser, TokenSequence sequence) {
+        return parse(parser, sequence, new Node());
+    }
+
+    /**
+     * Returns a Node from parsing this token sequence. May return null, if this sequence does not match what is expected.
      * Only tokens that are parsed should be advanced past.
      *
      * @param parser   A parser to use, allowing for generating other Nodes, inside of this Node
      * @param sequence The sequence to parse. It is expected that the start and end positions are not modified.
-     *
+     * @param last     The last node that was parsed prior to the current token.
      * @return The Node that resulted from parsing the token sequence
      */
-    public abstract Node parse(Parser parser, TokenSequence sequence);
+    public abstract Node parse(Parser parser, TokenSequence sequence, Node last);
 
     /**
      * Returns the indicating type for this token parser. This is what indicates this parser should be triggered.

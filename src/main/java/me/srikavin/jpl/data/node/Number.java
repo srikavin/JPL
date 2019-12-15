@@ -16,7 +16,7 @@
 
 package me.srikavin.jpl.data.node;
 
-import me.srikavin.jpl.Token;
+import me.srikavin.jpl.*;
 
 public class Number extends Node {
     public final double num;
@@ -26,4 +26,20 @@ public class Number extends Node {
         this.num = num;
         this.token = token;
     }
+
+    public static class NumberTokenParser extends TokenParser {
+        private static final TokenType[] indicatingTypes = new TokenType[]{TokenType.TYPE_NUMBER};
+
+        @Override
+        public Node parse(Parser parser, TokenSequence sequence, Node last) {
+            Token number = sequence.advance(TokenType.TYPE_NUMBER);
+            return new Number(Double.parseDouble(number.getValue()), number);
+        }
+
+        @Override
+        public TokenType[] getIndicatingType() {
+            return indicatingTypes;
+        }
+    }
+
 }
